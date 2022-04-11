@@ -1,0 +1,12 @@
+#!/bin/bash
+
+echo "Cleaning..."
+make clean
+echo ""
+echo "Compiling..."
+make
+echo ""
+echo "Running..."
+./main
+echo
+echo "Execution finished"

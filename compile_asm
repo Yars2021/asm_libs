@@ -1,0 +1,24 @@
+#!/bin/bash
+
+ASM_EXT=".asm"
+O_EXT=".o"
+FNAME="$1"
+
+nasm -g "${FNAME}${ASM_EXT}" -felf64 -o "${FNAME}${O_EXT}" -l ./listing.lst 
+
+if (($# == 1)); then
+    ld -o "${FNAME}" "${FNAME}${O_EXT}"
+else
+    LNAME="$2"
+
+    nasm -g "${LNAME}${ASM_EXT}" -felf64 -o "${LNAME}${O_EXT}"
+
+    if (($# == 3)); then
+        LNAME2="$3"
+
+        nasm -g "${LNAME2}${ASM_EXT}" -felf64 -o "${LNAME2}${O_EXT}" -l ./listing_dict.lst
+        ld -o "${FNAME}" "${FNAME}${O_EXT}" "${LNAME}${O_EXT}" "${LNAME2}${O_EXT}"
+    else
+        ld -o "${FNAME}" "${FNAME}${O_EXT}" "${LNAME}${O_EXT}"
+    fi
+fi
